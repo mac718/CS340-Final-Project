@@ -21,7 +21,7 @@ mysql = MySQL(app)
 # Routes
 @app.route('/')
 def root():
-    return "<h1>HOME</h1>"
+    return render_template("home.j2")
 
 @app.route('/customers', methods=["POST", "GET"])
 def customers():
