@@ -21,14 +21,29 @@ mysql = MySQL(app)
 # Routes
 @app.route('/')
 def root():
-    query = "SELECT * FROM Customers;"
-    cur = mysql.connection.cursor()
-    cur.execute(query)
-    results = cur.fetchall()
+    return "<h1>HOME</h1>"
 
-    return "<h1>MySQL Results</h1>" + str(results[0])
+@app.route('/customers', methods=["POST", "GET"])
+def customers():
+    if request.method == "GET":
+      query = "SELECT * FROM Customers;"
+      cur = mysql.connection.cursor()
+      cur.execute(query)
+      results = cur.fetchall()
+    
+    if request.method == "POST":
+      if request.form.get("Add_Customer"):
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
 
+      query = "INSERT INTO bsg_people (name, email, password) VALUES (%s, %s,%s,%s)"
+      cur = mysql.connection.cursor()
+      cur.execute(query, (name, email, password))
+      mysql.connection.commit()
 
+      return render_template("people.j2", data=results)
+    
 # Listener
 if __name__ == "__main__":
 
