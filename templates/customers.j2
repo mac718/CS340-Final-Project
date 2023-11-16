@@ -1,0 +1,65 @@
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>email</th>
+        <th>password</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tbody>
+    {% for customer in data %}
+    <tr>
+        <td>{{customer['customer_id']}}</td>
+        <td>{{customer['name']}}</td>
+        <td>{{customer['email']}}</td>
+        <td>{{customer['password']}}</td>
+        <td><a href="/edit_customer/{{customer["customer_id"]}}">edit</a></td>
+        <td><a href="/delete_customer/{{customer["customer_id"]}}">delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+<div id="insert">
+		<!-- form to INSERT new data into bsg_people-->
+		<form id="insertCustomer" action="/customers" method="post">
+			<legend><strong>Add Customer</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="make">name:</label>
+				<input type="text" class="form-control" id="name" name="name" placeholder="" required>
+
+				<label for="model">email:</label>
+				<input type="email" class="form-control" id="email" name="email" placeholder="" required>
+
+        <label for="model">password:</label>
+				<input type="text" class="form-control" id="password" name="password" placeholder="" required>
+
+      </fieldset>
+
+            <!-- Create 'Add Person' and 'Cancel' buttons -->
+			<input type="submit" value="Add Customer" name="Add_Customer" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browsePeople()"> 
+  </form>
+  </div><!--insert-->
+  
+  <!--<div id="edit">-->
+		<!-- form to edit data in Customers-->
+		<!--<form id="editCustomer" action="/edit_customer/{{data[0].customer_id}}" method="post">
+			<legend><strong>Edit Customer</strong></legend>
+			<fieldset>
+				<input type="hidden" value="{{data[0].customer_id}}" class="form-control" id="customer_id" name="customer_id" required>
+				<label for="make">name:</label>
+
+				<input type="text" class="form-control" id="name" name="name" value="{{data[0].name}}" required>
+				<label for="model">last name:</label>
+
+				<input type="text" class="form-control" id="email" name="email" value="{{data[0].email}}" required>
+				<label for="year">homeworld:</label>
+
+        <input type="text" class="form-control" id="password" name="password" value="{{data[0].password}}" required>
+				
+        <input type="submit" value="Edit Customer" name="Edit_Customer" class="btn btn-primary" style="margin:.5rem;">
+				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
+        </form>
+	</div>-->
