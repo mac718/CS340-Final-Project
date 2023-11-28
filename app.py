@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, redirect
 from flask_mysqldb import MySQL
 from flask import request
+from 
 import os
 from dotenv import load_dotenv
 
@@ -101,4 +102,5 @@ def edit_customer(id):
 if __name__ == "__main__":
 
     #Start the app on port 3000, it will be different once hosted
-    app.run(port=8000, debug=True)
+    # app.run(port=8000, debug=True)
+    app.run(port=8003, debug=True)
