@@ -11,12 +11,11 @@
     <tbody>
     {% for customer in data %}
     <tr>
-        <td>{{customer['customer_id']}}</td>
-        <td>{{customer['name']}}</td>
-        <td>{{customer['email']}}</td>
-        <td>{{customer['password']}}</td>
-        <td><a href="/edit_customer/{{customer["customer_id"]}}">edit</a></td>
-        <td><a href="/delete_customer/{{customer["customer_id"]}}">delete</a></td>
+        {% for key in customer.keys() %} 
+
+        <td>{{customer[key]}}</td>
+
+        {% endfor %}
     </tr>
     {% endfor %}
 </table>
@@ -63,3 +62,11 @@
 				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
         </form>
 	</div>-->
+
+
+        <td>{{customer['customer_id']}}</td>
+        <td>{{customer['name']}}</td>
+        <td>{{customer['email']}}</td>
+        <td>{{customer['password']}}</td>
+        <td><a href="/edit_customer/{{customer["customer_id"]}}">edit</a></td>
+        <td><a href="/delete_customer/{{customer["customer_id"]}}">delete</a></td>
