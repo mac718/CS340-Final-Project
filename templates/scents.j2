@@ -1,0 +1,65 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="./static/styles.css" rel="stylesheet" type="text/css">
+        <title>Scents</title>
+    </head>
+    <body>
+        <h1>Scents</h1>
+        <ul>
+            <li><a href="/customers">Customers</a></li> 
+            <li><a href="/orders">Orders</a></li> 
+            <li><a href="/products">Products</a></li> 
+            <li><a href="/scents">Scents</a></li> 
+        </ul>
+        <table>
+        <thead>
+        <tr>
+            <!-- Iterate through each key in the first entry to get the
+            column name -->
+            {% for key in data[0].keys() %}
+
+            <!-- Create a <th> tag with the key inside of it, this will be
+            our header row -->
+            <th>{{ key }}</th>
+
+            <!-- End of this for loop -->
+            {% endfor %}
+        </tr>
+        <tbody>
+
+        <!-- Now, iterate through every scent in Scents -->
+        {% for scent in data %}
+        <tr>
+            <!-- Then iterate through every key in the current scents dictionary -->
+            {% for key in scent.keys() %}
+
+            <!-- Create a <td> element with the value of that key in it -->
+            <td>{{scent[key]}}</td>
+            {% endfor %}
+            <td><a href="delete_scent/{{scent.scent_id}}" class="btn btn-default">Delete</a></td>
+            <td><a href="edit_scent/{{scent.scent_id}}" class="btn btn-default">Edit</a></td>
+        </tr>
+        {% endfor %}
+        </table>
+        
+        <!--BEGIN INSERT-->
+        <div id="insert">
+		<!-- form to INSERT new data into Scents-->
+		<form id="insertScent" action="/scents" method="post">
+			<legend><strong>Add Scent</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+				<label for="model">Description:</label>
+				<input type="text" class="form-control" id="description" name="description" maxlength="256" placeholder="" required>
+
+            </fieldset>
+
+            <!-- Create 'Add Scent' and 'Cancel' buttons -->
+			<input type="submit" value="Add Scent" name="Add_Scent" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browsePeople()">
+        </form>
+	</div><!--insert-->
+    </body>
+</html>
+

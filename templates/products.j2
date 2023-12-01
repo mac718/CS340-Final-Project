@@ -1,0 +1,75 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="./static/styles.css" rel="stylesheet" type="text/css">
+        <title>Products</title>
+    </head>
+    <body>
+        <h1>Products</h1>
+        <ul>
+            <li><a href="/customers">Customers</a></li> 
+            <li><a href="/orders">Orders</a></li> 
+            <li><a href="/products">Products</a></li> 
+            <li><a href="/scents">Scents</a></li> 
+        </ul>
+        <table>
+        <thead>
+        <tr>
+            <!-- Iterate through each key in the first entry to get the
+            column name -->
+            {% for key in data[0].keys() %}
+
+            <!-- Create a <th> tag with the key inside of it, this will be
+            our header row -->
+            <th>{{ key }}</th>
+
+            <!-- End of this for loop -->
+            {% endfor %}
+        </tr>
+        <tbody>
+
+        <!-- Now, iterate through every order in Products -->
+        {% for product in data %}
+        <tr>
+            <!-- Then iterate through every key in the current person dictionary -->
+            {% for key in product.keys() %}
+
+            <!-- Create a <td> element with the value of that key in it -->
+            <td>{{product[key]}}</td>
+            {% endfor %}
+            <td><a href="delete_product/{{product.product_id}}" class="btn btn-default">Delete</a></td>
+            <td><a href="edit_product/{{product.product_id}}" class="btn btn-default">Edit</a></td>
+        </tr>
+        {% endfor %}
+        </table>
+        
+        <!--BEGIN INSERT-->
+        <div id="insert">
+		<!-- form to INSERT new data into Products-->
+		<form id="insertProduct" action="/products" method="post">
+			<legend><strong>Add Product</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
+
+				<label for="model">Scent:</label>
+				<input type="text" class="form-control" id="scent" name="scent" placeholder="" required>
+
+				<label for="model">Price:</label>
+				<input type="text" class="form-control" id="price" name="price" placeholder="" required>
+
+				<label for="model">Product Type:</label>
+				<input type="text" class="form-control" id="product_type" name="product_type" placeholder="" required>
+
+				<label for="model">Inventory:</label>
+				<input type="text" class="form-control" id="inventory" name="inventory" placeholder="" required>
+
+
+            </fieldset>
+
+            <!-- Create 'Add Product' and 'Cancel' buttons -->
+			<input type="submit" value="Add Product" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browsePeople()">
+        </form>
+	</div><!--insert-->
+    </body>
+</html>
