@@ -93,7 +93,10 @@ def orders():
         query = "SELECT * FROM Orders;"
         cur = db.execute_query(db_connection=db_connection, query=query)
         order_data = cur.fetchall()
-        return render_template("orders.j2", data=order_data)
+        query2 = "SELECT * FROM Customers"
+        cur2 = db.execute_query(db_connection=db_connection, query=query2)
+        customers = cur2.fetchall()
+        return render_template("orders.j2", data=order_data, customers=customers)
 
     if request.method == "POST":
         if request.form.get("Add_Order"):
@@ -147,7 +150,13 @@ def products():
         query = "SELECT * FROM Products;"
         cur = db.execute_query(db_connection=db_connection, query=query)
         product_data = cur.fetchall()
-        return render_template("products.j2", data=product_data)
+        query2 = "SELECT * FROM Scents;"
+        cur2 = db.execute_query(db_connection=db_connection, query=query2)
+        scent_data = cur2.fetchall()
+        query3 = "SELECT * FROM Product_Types;"
+        cur3 = db.execute_query(db_connection=db_connection, query=query3)
+        product_type_data = cur3.fetchall()
+        return render_template("products.j2", data=product_data, scents=scent_data, product_types=product_type_data)
 
     if request.method == "POST":
         if request.form.get("Add_Product"):
@@ -156,7 +165,7 @@ def products():
             product_type = request.form["product_type"]
             inventory = request.form["inventory"]
             query = "INSERT INTO Products (scent, price, product_type, inventory) VALUES (%s, %s, %s, %s)"
-            db.execute_query(db_connection=db_connection, query=query, query_params=(scent, price, product_type, inventory, id))
+            db.execute_query(db_connection=db_connection, query=query, query_params=(scent, price, product_type, inventory))
         return redirect("/products")
 
 @app.route("/delete_product/<int:id>")
@@ -244,6 +253,54 @@ def edit_scent(id):
         # redirect back to people page after we execute the update query
         return redirect("/scents")
 
+
+@app.route('/product_types', methods=["POST", "GET"])
+def product_types():
+    if request.method == "GET":
+        query = "SELECT * FROM Product_Types;"
+        cur = db.execute_query(db_connection=db_connection, query=query)
+        product_type_data = cur.fetchall()
+        return render_template("product_types.j2", data=product_type_data)
+
+    if request.method == "POST":
+        if request.form.get("Add_Product_Type"):
+            description = request.form["description"]
+            query = "INSERT INTO Product_Types (description) VALUES (%s)"
+            db.execute_query(db_connection=db_connection, query=query, query_params=(description,))
+        return redirect("/product_types")
+
+@app.route("/delete_product_type/<int:id>")
+def delete_product_type(id):
+  query1 = "SET foreign_key_checks=0;"
+  query2 = "DELETE FROM Product_Types WHERE product_type_id = '%s';"
+  query3 = "SET foreign_key_checks=1;"
+  db.execute_query(db_connection=db_connection, query=query1)
+  db.execute_query(db_connection=db_connection, query=query2, query_params=(id,))
+  db.execute_query(db_connection=db_connection, query=query3)
+  return redirect("/product_types")
+
+      
+@app.route("/edit_product_type/<int:id>", methods=["POST", "GET"])
+def edit_product_type(id):
+   if request.method == "GET":
+      # mySQL query to grab the info of the person with our passed id
+      query = "SELECT * FROM Product_Types WHERE product_type_id = %s;" #% (id)
+      cur = db.execute_query(db_connection=db_connection, query=query, query_params=(id,))
+      product_type_data = cur.fetchall()
+
+      # render edit_people page passing our query data and homeworld data to the edit_people template
+      return render_template("edit_product_type.j2", data=product_type_data)
+   
+   if request.method == "POST":
+      # fire off if user clicks the 'Edit Person' button
+      if request.form.get("Edit_Product_Type"):
+         # grab user form inputs
+        id = request.form["product_type_id"]
+        description = request.form["description"]
+        query = "UPDATE Product_Types SET Product_Types.description = %s WHERE product_type_id = %s"
+        db.execute_query(db_connection=db_connection, query=query, query_params=(description, id))
+        # redirect back to people page after we execute the update query
+        return redirect("/product_types")
     
 
 # Listener
@@ -251,4 +308,4 @@ if __name__ == "__main__":
 
     #Start the app on port 3000, it will be different once hosted
     # app.run(port=8000, debug=True)
-    app.run(port=8003, debug=True)
+    app.run(port=8006, debug=True)

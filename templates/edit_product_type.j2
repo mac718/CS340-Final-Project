@@ -1,0 +1,58 @@
+<html>
+
+<head>
+	<title>Edit Scent</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div>
+        <table border="1" cellpadding="5"> 
+            <caption> Editing Product Type: </caption>
+            <!-- Access data tuple passed from app.py -->
+            {% if data %}
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                        
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in data %}
+                    <tr>
+                        <!-- Then iterate through every key in the current item dictionary -->
+                        {% for key in item.keys() %}
+                        
+                        <!-- Create a <td> element with the value of that key in it -->
+                        <td>{{item[key]}}</td> {% endfor %} 
+                    </tr> 
+                    {% endfor %} 
+            {% endif %} 
+        </table>
+
+        <div id="edit">
+            <!-- form to edit data in Scent-->
+            {{data[0]}}
+            <form id="editProductType" action="/edit_product_type/{{data[0].product_type_id}}" method="post">
+                <legend><strong>Edit Product Type</strong></legend>
+                <fieldset>
+                    <input type="hidden" value="{{data[0].product_type_id}}" class="form-control" id="product_type_id" name="product_type_id" required>
+                    <label for="scent">Description:</label>
+                    <input type="text" value="{{data[0].description}}" class="form-control" id="description" name="description" required>
+
+
+                </fieldset>
+                <input type="submit" value="Edit Product Type" name="Edit_Product_Type" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/scents'><input class="btn" type="button" value="cancel"></a>
+            </form>
+
+</html>
+
+

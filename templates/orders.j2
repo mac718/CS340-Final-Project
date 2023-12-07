@@ -11,6 +11,7 @@
             <li><a href="/orders">Orders</a></li> 
             <li><a href="/products">Products</a></li> 
             <li><a href="/scents">Scents</a></li> 
+            <li><a href="/product_types">Product Types</a></li> 
         </ul>
         <table>
         <thead>
@@ -51,7 +52,12 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="customer_id">Customer ID:</label>
-				<input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="" required>
+				 <!-- <input type="text" class="form-control" id="customer_id" name="customer_id" placeholder="" required> -->
+                <select id="customer" name="customer_id">
+                    {% for customer in customers %}
+                        <option value="{{customer.customer_id}}">{{customer.name}}</option>
+                    {% endfor %}
+                </select>
 
 				<label for="model">Order Date:</label>
 				<input type="text" class="form-control" id="order_date" name="order_date" placeholder="" required>

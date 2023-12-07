@@ -11,6 +11,7 @@
             <li><a href="/orders">Orders</a></li> 
             <li><a href="/products">Products</a></li> 
             <li><a href="/scents">Scents</a></li> 
+            <li><a href="/product_types">Product Types</a></li> 
         </ul>
         <table>
         <thead>
@@ -52,13 +53,24 @@
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 
 				<label for="model">Scent:</label>
-				<input type="text" class="form-control" id="scent" name="scent" placeholder="" required>
+                <select id="scent" name="scent">
+                    {% for scent in scents %}
+                        <option value="{{scent.scent_id}}">{{scent.description}}</option>
+                    {% endfor %}
+                </select>
 
 				<label for="model">Price:</label>
 				<input type="text" class="form-control" id="price" name="price" placeholder="" required>
 
 				<label for="model">Product Type:</label>
-				<input type="text" class="form-control" id="product_type" name="product_type" placeholder="" required>
+                <select id="product_type" name="product_type">
+                    {% for product_type in product_types %}
+                        <option value="{{product_type.product_type_id}}">{{product_type.description}}</option>
+                    {% endfor %}
+                </select>
+
+
+
 
 				<label for="model">Inventory:</label>
 				<input type="text" class="form-control" id="inventory" name="inventory" placeholder="" required>

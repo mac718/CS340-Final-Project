@@ -5,7 +5,7 @@ CREATE OR REPLACE TABLE Product_Types
 
 (
     product_type_id int  NOT NULL,
-    description integer NOT NULL,
+    description varchar(255) NOT NULL,
     PRIMARY KEY (product_type_id)
 );
 
